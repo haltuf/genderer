@@ -10,7 +10,7 @@
 		}
 	],
 	"require": {
-		"php": ">=5.3.7",
+		"php": ">=5.3.1",
 		"nette/database": "~2.3",
 		"nette/utils": "~2.3"
 	},
