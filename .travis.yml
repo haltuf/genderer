@@ -1,0 +1,28 @@
+language: php
+php:
+    - 5.3.3
+    - 5.4
+    - 5.5
+    - 5.6
+    - 7.0
+    - hhvm
+    - hhvm-nightly
+
+matrix:
+    allow_failures:
+        - php: 7.0
+        - php: hhvm
+        - php: hhvm-nightly
+
+script:
+    - vendor/bin/tester tests -s -p php -c tests/php-unix.ini
+    
+before_install:
+  - composer self-update
+
+install:
+  - composer install --no-interaction --prefer-source
+  
+after_failure:
+  # Vytiskne obsah souborů *.actual
+  - for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done

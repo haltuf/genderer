@@ -6,7 +6,7 @@ Knihovna pro detekci pohlaví podle jména. Kromě toho je schopna dle zadaného
 
 See `example.php` for example of use.
 
-Please be patient, this is my first github project.
+Please be patient, this is my first github project and I use it as a learning playground.
 
 Data source
 -----------
