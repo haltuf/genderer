@@ -1,0 +1,23 @@
+{
+	"name": "Genderer",
+	"type": "library",
+	"description": "Library to detect gender by name in Czech. Also returns 5th grammatical case (vocative) for salutation.",
+	"license": "BSD-3-Clause",
+	"authors": [
+		{
+			"name": "Michal Haltuf",
+			"homepage": "http://www.michalhaltuf.cz"
+		}
+	],
+	"require": {
+		"php": ">=5.3.7",
+		"nette/database": "~2.3",
+		"nette/utils": "~2.3"
+	},
+	"require-dev": {
+		"nette/tester": "~1.3"
+	},
+	"autoload": {
+		"classmap": ["src/"]
+	}
+}
