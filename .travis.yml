@@ -14,23 +14,15 @@ matrix:
         - php: hhvm
         - php: hhvm-nightly
 
+before_script:
+    - composer install --no-interaction --prefer-source
+
+    - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then cat ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini >> ./tests/php.ini; fi
+    - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then NTESTER_FLAGS="--coverage ./coverage.xml --coverage-src ./src"; else TESTER_FLAGS=""; fi
+
 script:
     - vendor/bin/tester tests -s -p php -c tests/php-unix.ini $NTESTER_FLAGS
-    
-before_install:
-  - composer self-update
-
-install:
-  - composer install --no-interaction --prefer-source
-  
-before_script:
-  - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then cat ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini >> ./tests/php-unix.ini; fi
-  - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then NTESTER_FLAGS="--coverage ./coverage.xml --coverage-src ./src"; else TESTER_FLAGS=""; fi
-  
-after_failure:
-  # Vytiskne obsah souborů *.actual
-  - for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done
 
 after_script:
-  - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then composer require satooshi/php-coveralls; fi
-  - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then php vendor/bin/coveralls -c tests/.coveralls.yml -v; fi
+    - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then composer require satooshi/php-coveralls; fi
+    - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then php vendor/bin/coveralls -c tests/.coveralls.yml -v; fi 
