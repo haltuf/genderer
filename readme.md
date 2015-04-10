@@ -1,7 +1,7 @@
-Genderer
+﻿Genderer
 ========
 
-[![Build Status](https://travis-ci.org/haltuf/genderer.svg?branch=master)](https://travis-ci.org/haltuf/genderer)
+[![Build Status](https://travis-ci.org/haltuf/genderer.svg?branch=master)](https://travis-ci.org/haltuf/genderer)[![Coverage Status](https://coveralls.io/repos/haltuf/genderer/badge.svg)](https://coveralls.io/r/haltuf/genderer)
 
 Library to detect gender by name in Czech language. Also provides 5th grammatical case (vocative) for salutation.
 Knihovna pro detekci pohlaví podle jména. Kromě toho je schopna dle zadaného jména vrátit 5. pád pro oslovení.
