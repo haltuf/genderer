@@ -26,3 +26,6 @@ install:
 after_failure:
   # Vytiskne obsah souborů *.actual
   - for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done
+
+after_script:
+  - php vendor/bin/coveralls -c tests/.coveralls.yml -v;
