@@ -24,6 +24,7 @@ install:
   - composer install --no-interaction --prefer-source
   
 before_script:
+  - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then cat ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini >> ./tests/php-unix.ini; fi
   - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then NTESTER_FLAGS="--coverage ./coverage.xml --coverage-src ./src"; else TESTER_FLAGS=""; fi
   
 after_failure:
