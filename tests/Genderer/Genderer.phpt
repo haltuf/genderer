@@ -5,7 +5,12 @@ use Tester\Assert ;
 require __DIR__ . '/../bootstrap.php' ;
 
 
-$o = new \Haltuf\Genderer\Genderer ;
+$connection = new \Nette\Database\Connection( 'sqlite:' . __DIR__ . '/../../src/Genderer/names.db3' );
+$cacheStorage = new \Nette\Caching\Storages\FileStorage( __DIR__ );
+$structure = new \Nette\Database\Structure( $connection, $cacheStorage );
+$context = new \Nette\Database\Context($connection,$structure);
+$driver = new \Haltuf\Genderer\Connection($context);
+$o = new \Haltuf\Genderer\Genderer($driver) ;
 
 // test gender recognition
 Assert::same( "m", $o->getGender( "Miloš" )) ;

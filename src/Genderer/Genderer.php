@@ -17,9 +17,6 @@ class Genderer {
 	 * @todo Dependency Injection
 	 */
 	public function __construct( IConnection $db = null ) {
-		if( $db == NULL ) {
-			$db = new Connection() ;
-		}
 		$this->db = $db ;
 	}
 	

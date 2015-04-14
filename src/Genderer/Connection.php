@@ -11,11 +11,8 @@ class Connection implements IConnection {
 	private $context ;
 	
 	
-	public function __construct() {
-		$connection = new \Nette\Database\Connection( 'sqlite:' . __DIR__ . '/names.db3' );
-		$cacheStorage = new \Nette\Caching\Storages\FileStorage( __DIR__ );
-		$structure = new \Nette\Database\Structure( $connection, $cacheStorage );
-		$this->context = new \Nette\Database\Context( $connection, $structure );
+	public function __construct( \Nette\Database\Context $context ) {
+		$this->context = $context ;
 	}
 	
 	public function findFirstname( $firstname ) {
