@@ -9,15 +9,20 @@ use Nette\DI\CompilerExtension ;
 class GendererExtension extends CompilerExtension {
 	
 	private $defaults = array(
-		'dsn' => 'sqlite:names.db3',
+		'dsn' => 'sqlite:%gendererDir%/names.db3',
 		'user' => NULL,
 		'password' => NULL,
 		'options' => NULL,
 		'driver' => 'Haltuf\Genderer\Connection'
 	);
 	
+	public function __construct() {
+		//@todo: ugly hack
+		$this->defaults['dsn'] = str_replace( '%gendererDir%', __DIR__ . '/../../', $this->defaults['dsn'] ) ;
+	}
+	
 	public function loadConfiguration() {
-		
+
 		$container = $this->getContainerBuilder() ;
 		$config = $this->getConfig($this->defaults) ;
 		
@@ -29,7 +34,8 @@ class GendererExtension extends CompilerExtension {
 			->setArguments(array($connection));
 		
 		$context = $container->addDefinition($this->prefix("context"))
-			->setClass('Nette\Database\Context', array($connection, $structure));
+			->setClass('Nette\Database\Context', array($connection, $structure)	)
+			->setAutowired(FALSE);
 		
 		$driver = $container->addDefinition($this->prefix("driver"))
 			->setClass($config['driver'], array($context));
