@@ -1,6 +1,7 @@
 {
-	"name": "Genderer",
+	"name": "haltuf/genderer",
 	"type": "library",
+	"keywords": ["gender","name","salutation","czech"],
 	"description": "Library to detect gender by name in Czech. Also returns 5th grammatical case (vocative) for salutation.",
 	"license": "BSD-3-Clause",
 	"authors": [
