@@ -13,7 +13,8 @@
 		"php": ">=5.3.1",
 		"ext-curl": "*",
 		"nette/database": "~2.3",
-		"nette/utils": "~2.3"
+		"nette/utils": "~2.3",
+		"nette/di": "~2.3"
 	},
 	"require-dev": {
 		"nette/tester": "~1.3"

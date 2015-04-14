@@ -5,7 +5,6 @@ use Tester\Assert ;
 require __DIR__ . '/../bootstrap.php' ;
 
 
-
 $o = new \Haltuf\Genderer\Genderer ;
 
 // test gender recognition
@@ -36,4 +35,6 @@ Assert::same( "Hano Teslíková", $o->getVocative( "Hana Teslíková" )) ;
 // test more than 2 parts of name, unknown parts etc.
 Assert::same( "ing. Michale", $o->getVocative( "ing. Michal" )) ;
 Assert::same( "ing. Haltufe", $o->getVocative( "ing. Haltuf" )) ;
-//Assert::same( "ing. Michale Haltufe", $o->getVocative( "ing. Michal Haltuf" )) ;
+Assert::same( "ing. Michale Haltufe", $o->getVocative( "ing. Michal Haltuf" )) ;
+Assert::same( "Magdaléno Dobromilo Retigová", $o->getVocative( "Magdaléna Dobromila Retigová" )) ;
+//Assert::same( "prof. ing. Václave Václavoviči Tolstoji, CSc.", $o->getVocative( "prof. ing. Václav Václavovič Tolstoj, CSc." )) ; @todo

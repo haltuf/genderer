@@ -2,6 +2,7 @@
 
 namespace Haltuf\Genderer ;
 
+use Haltuf\Genderer\Connection ;
 
 class Genderer {
 	
@@ -15,33 +16,11 @@ class Genderer {
 	/**
 	 * @todo Dependency Injection
 	 */
-	public function __construct() {
-		$connection = new \Nette\Database\Connection( 'sqlite:' . __DIR__ . '/names.db3' );
-		$cacheStorage = new \Nette\Caching\Storages\FileStorage( __DIR__ );
-		$structure = new \Nette\Database\Structure( $connection, $cacheStorage );
-		$this->db = new \Nette\Database\Context( $connection, $structure );
-	}
-	
-	private function findNormalizedFirstname( $name ) {
-		$normalized = Utils::normalize( $name ) ;
-		return $this->db->table('firstname')->where('normalized',$normalized)->order('frequency DESC') ;
-	}
-	
-	private function findNormalizedLastname( $name ) {
-		$normalized = Utils::normalize( $name ) ;
-		return $this->db->table('lastname')->where('normalized',$normalized)->order('frequency DESC') ;
-	}
-	
-	public function findFirstname( $firstname ) {
-		$firstname = Utils::standardize( $firstname );
-		$retval = $this->db->table('firstname')->where('name',$firstname)->order('frequency DESC') ;
-		return count( $retval ) > 0 ? $retval : $this->findNormalizedFirstname( $firstname ) ;
-	}
-	
-	public function findLastname( $lastname ) {
-		$lastname = Utils::standardize( $lastname );
-		$retval = $this->db->table('lastname')->where('name',$lastname)->order('frequency DESC') ;
-		return count( $retval ) > 0 ? $retval : $this->findNormalizedLastname( $lastname );
+	public function __construct( IConnection $db = null ) {
+		if( $db == NULL ) {
+			$db = new Connection() ;
+		}
+		$this->db = $db ;
 	}
 	
 	/**
@@ -69,15 +48,15 @@ class Genderer {
 		$parts = explode( " ", $name ) ;
 		
 		if( count( $parts ) == 1 ) {		// just firstname
-			$data = $this->findFirstname( $name ) ;
+			$data = $this->db->findFirstname( $name ) ;
 			return $this->vote( $data ) ;
 		}
 		
 		if( count( $parts ) == 2 ) {		// <firstname lastname>
-			$data = $this->findFirstname( $parts[0] ) ;
+			$data = $this->db->findFirstname( $parts[0] ) ;
 			$vote1 = $this->vote( $data ) ;
 			
-			$data = $this->findLastname( $parts[1] ) ;
+			$data = $this->db->findLastname( $parts[1] ) ;
 			$vote2 = $this->vote( $data ) ;
 			
 			$vote = array();
@@ -101,17 +80,31 @@ class Genderer {
 		$parts = explode( " ", $name ) ;
 		
 		if( count( $parts ) == 1 ) {		// just firstname
-			$data = $this->findFirstname( Utils::standardize( $name )) ;
+			$data = $this->db->findFirstname( Utils::standardize( $name )) ;
 			return $this->salute( $data, $name );
 		}
 		
 		if( count( $parts ) == 2 ) {		// <firstname lastname>
-			$data1 = $this->findFirstname( Utils::standardize( $parts[0] )) ;
-			$data2 = $this->findLastname( Utils::standardize( $parts[1] )) ;
+			$data1 = $this->db->findFirstname( Utils::standardize( $parts[0] )) ;
+			$data2 = $this->db->findLastname( Utils::standardize( $parts[1] )) ;
 			
 			return $this->salute( $data1, $parts[0] ) . ' ' . $this->salute( $data2, $parts[1] );
 		}
-		// @TODO: more than 3 parts
+		
+		if( count( $parts > 2 )) {			// more complicated input
+			
+			$retval = array() ;
+			
+			foreach( $parts as $part ) {
+				$data = $this->db->findFirstName( $part ) ;
+				if( count( $data ) == 0 ) {
+					$data = $this->db->findLastName( $part ) ;
+				}
+				$retval[] = $this->salute( $data, $part );
+			}
+			
+			return implode( ' ', $retval );
+		}
 	}
 	
 	private function vote( $data ) {
