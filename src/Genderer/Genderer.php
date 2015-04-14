@@ -2,21 +2,16 @@
 
 namespace Haltuf\Genderer ;
 
-use Haltuf\Genderer\Connection ;
+use Haltuf\Genderer\IConnection ;
+
 
 class Genderer {
 	
-	/** @var Nette\Database\Context */
+	/** @var Haltuf\Genderer\IConnection */
 	private $db;
 
-	/*public function __construct( Nette\Database\Context $db ) {
-		$this->db = $db;
-	}*/
 	
-	/**
-	 * @todo Dependency Injection
-	 */
-	public function __construct( IConnection $db = null ) {
+	public function __construct( IConnection $db ) {
 		$this->db = $db ;
 	}
 	

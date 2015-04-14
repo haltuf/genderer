@@ -6,14 +6,7 @@ use Nette\DI\ContainerLoader;
 use Haltuf\Genderer\Bridges\NetteDI\GendererExtension ;
 
 require __DIR__ . '/../bootstrap.php' ;
-/*
-$loader = new ContainerLoader(TEMP_DIR);
-$key = 'key';
-$className = $loader->load($key, function (Compiler $compiler) {
-	$compiler->addExtension('genderer', new GendererExtension());
-	$compiler->loadConfig(__DIR__ . '/config.neon');
-});
-$e = new $className;*/
+
 
 $loader = new Nette\DI\Config\Loader ;
 $config = $loader->load( __DIR__ . '/config.neon' );
