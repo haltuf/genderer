@@ -24,7 +24,7 @@ class Genderer {
 	public function getGender( $name ) {
 		$stat = $this->getGenderStat( $name ) ;
 		arsort( $stat );
-		return current( array_keys( $stat ));
+		return (string)current( array_keys( $stat ));
 	}
 	
 	/**
@@ -40,26 +40,39 @@ class Genderer {
 		$parts = explode( " ", $name ) ;
 		
 		if( count( $parts ) == 1 ) {		// just firstname
+			
 			$data = $this->db->findFirstname( $name ) ;
 			return $this->vote( $data ) ;
-		}
-		
-		if( count( $parts ) == 2 ) {		// <firstname lastname>
+			
+		} elseif( count( $parts ) == 2 ) {		// <firstname lastname>
+			
 			$data = $this->db->findFirstname( $parts[0] ) ;
 			$vote1 = $this->vote( $data ) ;
 			
 			$data = $this->db->findLastname( $parts[1] ) ;
 			$vote2 = $this->vote( $data ) ;
 			
-			$vote = array();
-			foreach (array_keys($vote1 + $vote2) as $key) {
-				$vote[$key] = (isset($vote1[$key]) ? $vote1[$key] : 0) + (isset($vote2[$key]) ? $vote2[$key] : 0);
+			$vote = $this->sumArrays( $vote1, $vote2 ) ;
+			return $vote ;
+			
+		} elseif( count( $parts ) > 2 ) {	// more complicated input
+			
+			$vote = array() ;
+			
+			foreach( $parts as $part ) {
+				$data = $this->db->findFirstName( $part ) ;
+				if( count( $data ) == 0 ) {
+					$data = $this->db->findLastName( $part ) ;
+				}
+				
+				$round = $this->vote( $data ) ;
+				$vote = $this->sumArrays( $vote, $round ) ;
 			}
 			
 			return $vote ;
 		}
 		
-		// @TODO: more than 3 parts
+		return array() ;
 	}
 	
 	/**
@@ -113,5 +126,16 @@ class Genderer {
 	
 	private function salute( $data, $default = '' ) {
 		return count( $data ) > 0 ? $data->fetch()->vocative : $default ;
+	}
+	
+	private function sumArrays( $array1, $array2 ) {
+		
+		$retval = array() ;
+		
+		foreach (array_keys($array1 + $array2) as $key) {
+			$retval[$key] = (isset($array1[$key]) ? $array1[$key] : 0) + (isset($array2[$key]) ? $array2[$key] : 0);
+		}
+		
+		return $retval; 
 	}
 }
