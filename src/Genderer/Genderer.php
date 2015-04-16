@@ -3,6 +3,7 @@
 namespace Haltuf\Genderer ;
 
 use Haltuf\Genderer\IConnection ;
+use Haltuf\Genderer\Connection ;
 
 
 class Genderer {
@@ -11,7 +12,10 @@ class Genderer {
 	private $db;
 
 	
-	public function __construct( IConnection $db ) {
+	public function __construct( IConnection $db = null ) {
+		if( $db === null ) {
+			$db = new Connection ;
+		}
 		$this->db = $db ;
 	}
 	
@@ -115,17 +119,17 @@ class Genderer {
 	private function vote( $data ) {
 		$vote = array() ;
 		foreach( $data as $d ) {
-			if(array_key_exists( $d->gender, $vote )) {
-				$vote[$d->gender] += $d->frequency ;
+			if(array_key_exists( $d['gender'], $vote )) {
+				$vote[$d['gender']] += $d['frequency'] ;
 			} else {
-				$vote[$d->gender] = $d->frequency ;
+				$vote[$d['gender']] = $d['frequency'] ;
 			}
 		}
 		return $vote ;
 	}
 	
 	private function salute( $data, $default = '' ) {
-		return count( $data ) > 0 ? $data->fetch()->vocative : $default ;
+		return count( $data ) > 0 ? $data[0]['vocative'] : $default ;
 	}
 	
 	private function sumArrays( $array1, $array2 ) {

@@ -2,8 +2,8 @@
 	"name": "haltuf/genderer",
 	"type": "library",
 	"keywords": ["gender","name","salutation","czech"],
-	"description": "Library to detect gender by name in Czech. Also returns 5th grammatical case (vocative) for salutation.",
-	"license": "BSD-3-Clause",
+	"description": "Independent library to detect gender by name in Czech. Also returns 5th grammatical case (vocative) for salutation.",
+	"license": "New BSD",
 	"authors": [
 		{
 			"name": "Michal Haltuf",
@@ -12,14 +12,10 @@
 	],
 	"require": {
 		"php": ">=5.3.1",
-		"ext-curl": "*",
-		"nette/database": "~2.3",
-		"nette/utils": "~2.3",
-		"nette/di": "~2.3"
+		"ext-sqlite3": "*"
 	},
 	"require-dev": {
-		"nette/tester": "~1.3",
-		"nette/nette": "~2.3"
+		"nette/tester": "~1.3"
 	},
 	"autoload": {
 		"classmap": ["src/"]
