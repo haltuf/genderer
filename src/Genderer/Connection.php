@@ -13,7 +13,7 @@ class Connection implements IConnection {
 	
 	public function __construct() {
 		if( !extension_loaded('sqlite3')) {
-			throw new Exception( 'Extension SQLITE3 required by Genderer is not available.' );
+			throw new \Exception( 'Extension SQLITE3 required by Genderer is not available.' );
 		}
 		$this->db = new \SQLite3(__DIR__ . '/names.db3');
 	}
