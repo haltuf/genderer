@@ -10,6 +10,18 @@ See `example.php` for example of use.
 
 Please be patient, this is my first github project and I use it as a testing playground.
 
+Versions
+--------
+
+List of current versions:
+
+Status | Version | Composer | PHP
+--- | --- | --- | ---
+dev | master | dev-master | &gt;= 5.3, <= 7.3
+stable | 0.2 | ~0.2 | &gt;= 5.3, <= 7.3
+stable | 0.1 | ~0.1 | &gt;= 5.3, <= 7.1
+
+
 Requirements
 ------------
 - PHP 5.3.1 or higher
