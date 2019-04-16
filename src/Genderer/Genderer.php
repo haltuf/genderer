@@ -88,25 +88,25 @@ class Genderer {
 	public function getVocative($name) {
 		$parts = explode(" ", $name);
 		
-		if(count($parts) == 1) {		// just firstname
+		if(count($parts) === 1) {		// just firstname
 			$data = $this->db->findFirstname(Utils::standardize($name));
 			return $this->salute($data, $name);
 		}
 		
-		if(count($parts) == 2) {		// <firstname lastname>
+		if(count($parts) === 2) {		// <firstname lastname>
 			$data1 = $this->db->findFirstname(Utils::standardize($parts[0]));
 			$data2 = $this->db->findLastname(Utils::standardize($parts[1]));
 			
 			return $this->salute($data1, $parts[0]) . ' ' . $this->salute($data2, $parts[1]);
 		}
-		
+
 		if(count($parts) > 2) {			// more complicated input
 			
 			$retval = array();
 			
 			foreach($parts as $part) {
 				$data = $this->db->findFirstName($part);
-				if(count($data) == 0) {
+				if(count($data) === 0) {
 					$data = $this->db->findLastName($part);
 				}
 				$retval[] = $this->salute($data, $part);
