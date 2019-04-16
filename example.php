@@ -15,3 +15,5 @@ echo "Pohlaví: " . $g->getGender( "Tomáš Vomáčka" );
 // Works for names with more than two parts
 // Dobrý den, MUDr. Tomáši Amosi Březino
 echo "Dobrý den, " . $g->getVocative( "MUDr. Tomáš Amos Březina" ) ;
+
+echo "Dobrý den, " . $g->getVocative( "Tomáš Václav" );
