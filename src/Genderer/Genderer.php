@@ -1,9 +1,9 @@
 <?php
 
-namespace Haltuf\Genderer ;
+namespace Haltuf\Genderer;
 
-use Haltuf\Genderer\IConnection ;
-use Haltuf\Genderer\Connection ;
+use Haltuf\Genderer\IConnection;
+use Haltuf\Genderer\Connection;
 
 
 class Genderer {
@@ -12,11 +12,11 @@ class Genderer {
 	private $db;
 
 	
-	public function __construct( IConnection $db = null ) {
-		if( $db === null ) {
-			$db = new Connection ;
+	public function __construct(IConnection $db = null) {
+		if($db === null) {
+			$db = new Connection;
 		}
-		$this->db = $db ;
+		$this->db = $db;
 	}
 	
 	/**
@@ -25,10 +25,10 @@ class Genderer {
 	 * @param string $name
 	 * @return string
 	 */
-	public function getGender( $name ) {
-		$stat = $this->getGenderStat( $name ) ;
-		arsort( $stat );
-		return (string)current( array_keys( $stat ));
+	public function getGender($name) {
+		$stat = $this->getGenderStat($name);
+		arsort($stat);
+		return (string)current(array_keys($stat));
 	}
 	
 	/**
@@ -39,44 +39,44 @@ class Genderer {
 	 * @param string $name
 	 * @return string
 	 */
-	public function getGenderStat( $name ) {
+	public function getGenderStat($name) {
 		
-		$parts = explode( " ", $name ) ;
+		$parts = explode(" ", $name);
 		
-		if( count( $parts ) == 1 ) {		// just firstname
+		if(count($parts) == 1) {		// just firstname
 			
-			$data = $this->db->findFirstname( $name ) ;
-			return $this->vote( $data ) ;
+			$data = $this->db->findFirstname($name);
+			return $this->vote($data);
 			
-		} elseif( count( $parts ) == 2 ) {		// <firstname lastname>
+		} elseif(count($parts) == 2) {		// <firstname lastname>
 			
-			$data = $this->db->findFirstname( $parts[0] ) ;
-			$vote1 = $this->vote( $data ) ;
+			$data = $this->db->findFirstname($parts[0]);
+			$vote1 = $this->vote($data);
 			
-			$data = $this->db->findLastname( $parts[1] ) ;
-			$vote2 = $this->vote( $data ) ;
+			$data = $this->db->findLastname($parts[1]);
+			$vote2 = $this->vote($data);
 			
-			$vote = $this->sumArrays( $vote1, $vote2 ) ;
-			return $vote ;
+			$vote = $this->sumArrays($vote1, $vote2);
+			return $vote;
 			
-		} elseif( count( $parts ) > 2 ) {	// more complicated input
+		} elseif(count($parts) > 2) {	// more complicated input
 			
-			$vote = array() ;
+			$vote = array();
 			
-			foreach( $parts as $part ) {
-				$data = $this->db->findFirstName( $part ) ;
-				if( count( $data ) == 0 ) {
-					$data = $this->db->findLastName( $part ) ;
+			foreach($parts as $part) {
+				$data = $this->db->findFirstName($part);
+				if(count($data) == 0) {
+					$data = $this->db->findLastName($part);
 				}
 				
-				$round = $this->vote( $data ) ;
-				$vote = $this->sumArrays( $vote, $round ) ;
+				$round = $this->vote($data);
+				$vote = $this->sumArrays($vote, $round);
 			}
 			
-			return $vote ;
+			return $vote;
 		}
 		
-		return array() ;
+		return array();
 	}
 	
 	/**
@@ -85,56 +85,56 @@ class Genderer {
 	 * @param string $name
 	 * @return string
 	 */
-	public function getVocative( $name ) {
-		$parts = explode( " ", $name ) ;
+	public function getVocative($name) {
+		$parts = explode(" ", $name);
 		
-		if( count( $parts ) == 1 ) {		// just firstname
-			$data = $this->db->findFirstname( Utils::standardize( $name )) ;
-			return $this->salute( $data, $name );
+		if(count($parts) == 1) {		// just firstname
+			$data = $this->db->findFirstname(Utils::standardize($name));
+			return $this->salute($data, $name);
 		}
 		
-		if( count( $parts ) == 2 ) {		// <firstname lastname>
-			$data1 = $this->db->findFirstname( Utils::standardize( $parts[0] )) ;
-			$data2 = $this->db->findLastname( Utils::standardize( $parts[1] )) ;
+		if(count($parts) == 2) {		// <firstname lastname>
+			$data1 = $this->db->findFirstname(Utils::standardize($parts[0]));
+			$data2 = $this->db->findLastname(Utils::standardize($parts[1]));
 			
-			return $this->salute( $data1, $parts[0] ) . ' ' . $this->salute( $data2, $parts[1] );
+			return $this->salute($data1, $parts[0]) . ' ' . $this->salute($data2, $parts[1]);
 		}
 		
-		if( count( $parts > 2 )) {			// more complicated input
+		if(count($parts) > 2) {			// more complicated input
 			
-			$retval = array() ;
+			$retval = array();
 			
-			foreach( $parts as $part ) {
-				$data = $this->db->findFirstName( $part ) ;
-				if( count( $data ) == 0 ) {
-					$data = $this->db->findLastName( $part ) ;
+			foreach($parts as $part) {
+				$data = $this->db->findFirstName($part);
+				if(count($data) == 0) {
+					$data = $this->db->findLastName($part);
 				}
-				$retval[] = $this->salute( $data, $part );
+				$retval[] = $this->salute($data, $part);
 			}
 			
-			return implode( ' ', $retval );
+			return implode(' ', $retval);
 		}
 	}
 	
-	private function vote( $data ) {
-		$vote = array() ;
-		foreach( $data as $d ) {
-			if(array_key_exists( $d['gender'], $vote )) {
-				$vote[$d['gender']] += $d['frequency'] ;
+	private function vote($data) {
+		$vote = array();
+		foreach($data as $d) {
+			if(array_key_exists($d['gender'], $vote)) {
+				$vote[$d['gender']] += $d['frequency'];
 			} else {
-				$vote[$d['gender']] = $d['frequency'] ;
+				$vote[$d['gender']] = $d['frequency'];
 			}
 		}
-		return $vote ;
+		return $vote;
 	}
 	
-	private function salute( $data, $default = '' ) {
-		return count( $data ) > 0 ? $data[0]['vocative'] : $default ;
+	private function salute($data, $default = '') {
+		return count($data) > 0 ? $data[0]['vocative'] : $default;
 	}
 	
-	private function sumArrays( $array1, $array2 ) {
+	private function sumArrays($array1, $array2) {
 		
-		$retval = array() ;
+		$retval = array();
 		
 		foreach (array_keys($array1 + $array2) as $key) {
 			$retval[$key] = (isset($array1[$key]) ? $array1[$key] : 0) + (isset($array2[$key]) ? $array2[$key] : 0);
