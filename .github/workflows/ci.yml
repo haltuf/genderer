@@ -7,7 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['5.3', '5.4', '5.5', '5.6', '7.1', '7.2', '7.3', '7.4', '8.0']
+        php-versions: ['5.3', '5.4', '5.5']
+      fail-fast: false
     steps:
       - uses: actions/checkout@v2
 
@@ -15,6 +16,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
+          extensions: sqlite3, mbstring
 
       - name: Check PHP Version
         run: php -v
@@ -25,5 +27,32 @@ jobs:
       - name: Install dependencies
         run: composer install --no-progress --no-suggest
 
-      - name: Run tests
+      - name: Run tests for PHP < 5.6
+        run: vendor/bin/tester tests -s -p php -c tests/php-unix.ini
+
+  test_new:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: ['5.6', '7.1', '7.2', '7.3', '7.4', '8.0']
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: sqlite3, mbstring
+
+      - name: Check PHP Version
+        run: php -v
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Install dependencies
+        run: composer install --no-progress --no-suggest
+
+      - name: Run tests for PHP >= 5.6
         run: vendor/bin/tester tests -C

@@ -1,7 +1,7 @@
 Genderer
 ========
 
-[![Build Status](https://travis-ci.org/haltuf/genderer.svg?branch=master)](https://travis-ci.org/haltuf/genderer)[![Coverage Status](https://coveralls.io/repos/haltuf/genderer/badge.svg)](https://coveralls.io/r/haltuf/genderer)
+![Build Status](https://github.com/haltuf/genderer/actions/workflows/ci.yml/badge.svg) [![Coverage Status](https://coveralls.io/repos/haltuf/genderer/badge.svg)](https://coveralls.io/r/haltuf/genderer)
 
 Independent library to detect gender by name in Czech language. Also provides 5th grammatical case (vocative) for salutation.
 Nezávislá knihovna pro detekci pohlaví podle jména. Kromě toho je schopna dle zadaného jména vrátit 5. pád pro oslovení.
@@ -26,6 +26,7 @@ Requirements
 ------------
 - PHP 5.3.1 or higher
 - Sqlite3 extension
+- mbstring extension 
 
 The library was written as a standalone tool with zero dependencies to other projects.
 This way you can use it in any project or framework you like.
@@ -34,17 +35,9 @@ If you want to use it in combination with Nette Framework, check out [GenderHelp
 Installation
 ------------
 
-Easiest way to install is to add this line to your `composer.json` file:
+Easiest way to install is through composer
 ```
-	"require": {
-		"haltuf/genderer": "dev-master"
-	}
-```
-
-or 
-
-```
-composer require haltuf/genderer:@dev
+composer require haltuf/genderer
 ```
 
 Usage
@@ -56,13 +49,13 @@ use Haltuf\Genderer\Genderer ;
 $g = new Genderer ;
 
 // Dobrý den, Tomáši Vomáčko
-echo "Dobrý den, " . $g->getVocative( "Tomáš Vomáčka" );
+echo "Dobrý den, " . $g->getVocative("Tomáš Vomáčka");
 
 // 'm' = male, 'f' = female
-echo "Pohlaví: " . $g->getGender( "Tomáš Vomáčka" );
+echo "Pohlaví: " . $g->getGender("Tomáš Vomáčka");
 
 // Dobrý den, MUDr. Tomáši Amosi Březino
-echo "Dobrý den, " . $g->getVocative( "MUDr. Tomáš Amos Březina" ) ;
+echo "Dobrý den, " . $g->getVocative("MUDr. Tomáš Amos Březina");
 ```
 
 Data source
