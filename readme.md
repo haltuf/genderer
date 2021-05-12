@@ -17,7 +17,7 @@ List of current versions:
 
 Status | Version | Composer | PHP
 --- | --- | --- | ---
-dev | master | dev-master | &gt;= 5.3, <= 7.3
+stable | 0.3 | ~0.3 | &gt;= 5.3, <= 8.0
 stable | 0.2 | ~0.2 | &gt;= 5.3, <= 7.3
 stable | 0.1 | ~0.1 | &gt;= 5.3, <= 7.1
 

@@ -1,0 +1,29 @@
+name: Test
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: ['5.3', '5.4', '5.5', '5.6', '7.1', '7.2', '7.3', '7.4', '8.0']
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+
+      - name: Check PHP Version
+        run: php -v
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Install dependencies
+        run: composer install --no-progress --no-suggest
+
+      - name: Run tests
+        run: vendor/bin/tester tests -C
