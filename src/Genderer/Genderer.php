@@ -43,9 +43,12 @@ class Genderer {
 		
 		$parts = explode(" ", $name);
 		
-		if(count($parts) == 1) {		// just firstname
+		if(count($parts) == 1) {		// just firstname or lastname
 			
 			$data = $this->db->findFirstname($name);
+			if (count($data) === 0) {
+                            $data = $this->db->findLastname(Utils::standardize($name));
+                        }
 			return $this->vote($data);
 			
 		} elseif(count($parts) == 2) {		// <firstname lastname>
