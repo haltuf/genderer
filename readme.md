@@ -17,6 +17,7 @@ List of current versions:
 
 Status | Version | Composer | PHP
 --- | --- | --- | ---
+stable | 0.4 | ~0.4 | &gt;= 8.1
 stable | 0.3 | ~0.3 | &gt;= 5.3, <= 8.0
 stable | 0.2 | ~0.2 | &gt;= 5.3, <= 7.3
 stable | 0.1 | ~0.1 | &gt;= 5.3, <= 7.1
@@ -24,7 +25,7 @@ stable | 0.1 | ~0.1 | &gt;= 5.3, <= 7.1
 
 Requirements
 ------------
-- PHP 5.3.1 or higher
+- PHP 8.1 or higher
 - Sqlite3 extension
 - mbstring extension 
 
