@@ -12,7 +12,7 @@ class Genderer {
 	private $db;
 
 	
-	public function __construct(IConnection $db = null) {
+	public function __construct(?IConnection $db = null) {
 		if($db === null) {
 			$db = new Connection;
 		}
